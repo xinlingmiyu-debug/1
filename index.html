@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>网盘资源搜索 · 分类小蝶</title>
+    <title>灵鹿网盘搜 · 分页筛选版</title>
     <style>
         * {
             margin: 0;
@@ -13,17 +13,15 @@
         }
 
         :root {
-            --bg-gradient: linear-gradient(145deg, #f9f3e8 0%, #ffe6e6 100%);
-            --card-bg: rgba(255, 255, 255, 0.92);
-            --text-primary: #2c2b28;
-            --text-secondary: #6c5e4f;
-            --accent-primary: #ff8c5a;
-            --accent-soft: #ffb347;
+            --bg-gradient: linear-gradient(145deg, #f0f8ff 0%, #e9f5f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.94);
+            --text-primary: #1e3a3a;
+            --text-secondary: #547a6b;
+            --accent-primary: #2c9b77;
+            --accent-soft: #48c9a7;
             --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
             --shadow-md: 0 20px 25px -12px rgba(0, 0, 0, 0.1);
-            --border-radius-card: 32px;
-            --border-radius-input: 60px;
-            --transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --border-radius-card: 28px;
         }
 
         body {
@@ -34,24 +32,22 @@
             padding: 0 16px 40px 16px;
         }
 
-        /* 多彩装饰条纹 */
         .top-rainbow {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 6px;
-            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fad961, #a1c4fd, #c2e9fb, #ffdde1);
+            background: linear-gradient(90deg, #2c9b77, #48c9a7, #7ed6b0, #b8e1cc, #d4f1e9);
             z-index: 200;
         }
 
         .container {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
             padding-top: 28px;
         }
 
-        /* 头部卡片 */
         .hero-card {
             background: var(--card-bg);
             backdrop-filter: blur(2px);
@@ -60,15 +56,15 @@
             margin-bottom: 24px;
             text-align: center;
             box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: var(--transition);
+            border: 1px solid rgba(90, 180, 140, 0.3);
+            transition: all 0.2s;
         }
 
         .hero-title {
             font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.01em;
-            background: linear-gradient(130deg, #ff8c5a, #ff4d6d, #9b5de5);
+            background: linear-gradient(130deg, #1f8a6b, #3dae86, #5fc7a3);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
@@ -79,17 +75,15 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(255, 140, 90, 0.15);
+            background: rgba(44, 155, 119, 0.12);
             padding: 6px 16px;
             border-radius: 40px;
             font-size: 0.75rem;
             font-weight: 500;
-            color: #ff6b3d;
+            color: #2c9b77;
             margin-bottom: 20px;
-            backdrop-filter: blur(2px);
         }
 
-        /* 头像区域 - 圆润多彩 */
         .avatar-area {
             display: flex;
             justify-content: center;
@@ -98,17 +92,16 @@
         .cute-avatar {
             width: 72px;
             height: 72px;
-            background: linear-gradient(135deg, #fbc2c2, #fead99);
+            background: linear-gradient(135deg, #b7e4cf, #7ed6b0);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 40px;
-            box-shadow: 0 12px 20px -12px rgba(255, 100, 100, 0.3);
+            box-shadow: 0 12px 20px -12px rgba(44, 155, 119, 0.3);
             border: 3px solid white;
         }
 
-        /* 搜索框 */
         .search-wrapper {
             display: flex;
             flex-direction: column;
@@ -124,22 +117,21 @@
             flex: 1;
             padding: 16px 24px;
             font-size: 1rem;
-            border: 1.5px solid #ffe2d4;
+            border: 1.5px solid #cfe8de;
             border-radius: 60px;
-            background: rgba(255, 255, 255, 0.8);
-            color: #2c2b28;
+            background: rgba(255, 255, 255, 0.85);
+            color: #1e3a3a;
             font-weight: 500;
             outline: none;
-            transition: var(--transition);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            transition: all 0.2s;
         }
         .search-input:focus {
-            border-color: #ff8c5a;
-            box-shadow: 0 0 0 4px rgba(255, 140, 90, 0.2);
+            border-color: #2c9b77;
+            box-shadow: 0 0 0 4px rgba(44, 155, 119, 0.2);
             background: white;
         }
         .search-btn {
-            background: linear-gradient(100deg, #ff8c5a, #ff6b4a);
+            background: linear-gradient(100deg, #2c9b77, #1f8a6b);
             border: none;
             border-radius: 60px;
             padding: 0 28px;
@@ -150,18 +142,17 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 8px 18px -8px rgba(255, 107, 74, 0.4);
+            transition: all 0.2s;
+            box-shadow: 0 8px 18px -8px rgba(44, 155, 119, 0.4);
         }
         .search-btn:active {
             transform: scale(0.96);
-            background: linear-gradient(100deg, #ff7742, #ff5436);
         }
 
-        /* 筛选胶囊栏 — 多彩滚动 */
+        /* 筛选栏 */
         .filter-section {
             margin: 24px 0 28px 0;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
             border-radius: 60px;
             padding: 8px 12px;
@@ -169,46 +160,89 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 10px;
-            border: 1px solid rgba(255,255,240,0.8);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border: 1px solid rgba(100, 180, 140, 0.4);
         }
         .filter-icon {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            background: #ffefe5;
+            background: #e0f3ec;
             padding: 5px 12px;
             border-radius: 40px;
-            color: #ff7340;
+            color: #2c9b77;
         }
         .filter-chip {
-            background: #f0ede8;
+            background: #edf6f2;
             padding: 8px 20px;
             border-radius: 40px;
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
-            color: #3b322a;
+            color: #235b4a;
             border: none;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
         .filter-chip.active {
-            background: #ff8c5a;
+            background: #2c9b77;
             color: white;
-            box-shadow: 0 6px 12px -8px #ff8c5a;
+            box-shadow: 0 6px 12px -8px #2c9b77;
         }
         .clear-filter {
-            background: rgba(0,0,0,0.04);
-            border: 1px solid #ddd6ce;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid #cfe0d8;
             padding: 6px 16px;
             border-radius: 40px;
             font-size: 0.75rem;
             font-weight: 500;
             cursor: pointer;
-            color: #7a6a5c;
+            color: #5e8b7a;
         }
 
-        /* 结果网格 — 多彩卡片网格 */
+        /* 分页控件 */
+        .pagination-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin: 32px 0 20px;
+            flex-wrap: wrap;
+        }
+        .page-btn {
+            background: #f0faf5;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 44px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c9b77;
+            border: 1px solid #cbe8dd;
+        }
+        .page-btn.active-page {
+            background: #2c9b77;
+            color: white;
+            border-color: #2c9b77;
+            box-shadow: 0 4px 10px rgba(44,155,119,0.2);
+        }
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .page-number-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .page-info {
+            background: #e4f3ec;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #2f6b57;
+        }
+
         .results-grid {
             display: flex;
             flex-direction: column;
@@ -218,40 +252,31 @@
             background: var(--card-bg);
             border-radius: 28px;
             overflow: hidden;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.08);
-            backdrop-filter: blur(2px);
-        }
-        .resource-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 28px -12px rgba(255, 107, 74, 0.2);
-            border-color: #ffe0cf;
+            transition: all 0.2s;
+            border: 1px solid rgba(150, 210, 170, 0.4);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.06);
         }
         .card-inner {
             padding: 20px 22px;
         }
         .res-title {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
             line-height: 1.35;
             margin-bottom: 12px;
-            color: #2e2a27;
+            color: #1f4e3f;
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
         }
         .disk-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #fff0e7;
+            background: #e0f2ea;
             padding: 4px 12px;
             border-radius: 40px;
             font-size: 0.7rem;
             font-weight: 600;
-            color: #bc6f3c;
+            color: #278a69;
         }
         .meta-row {
             display: flex;
@@ -260,25 +285,24 @@
             margin-bottom: 14px;
         }
         .meta-chip {
-            background: #f3f0eb;
+            background: #eff7f2;
             padding: 5px 12px;
             border-radius: 30px;
             font-size: 0.7rem;
-            font-weight: 500;
-            color: #5f4d3c;
+            color: #4e7b68;
         }
         .password-chip {
-            background: #feeed6;
-            color: #e67e22;
+            background: #fff0e0;
+            color: #d48c3b;
         }
         .note-text {
-            background: #fff8f2;
+            background: #f9fffcf;
             padding: 12px 14px;
             border-radius: 22px;
             font-size: 0.8rem;
-            color: #6b5a4b;
+            color: #507a69;
             margin: 12px 0;
-            border-left: 3px solid #ffaa77;
+            border-left: 3px solid #7ed6b0;
             word-break: break-word;
         }
         .link-button {
@@ -286,7 +310,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: linear-gradient(95deg, #ff9f6e, #ff794c);
+            background: linear-gradient(95deg, #2c9b77, #238a66);
             color: white;
             text-decoration: none;
             padding: 12px 0;
@@ -296,34 +320,26 @@
             width: 100%;
             margin-top: 8px;
             transition: 0.2s;
-            border: none;
-        }
-        .link-button:active {
-            transform: scale(0.97);
         }
         .footer-meta {
             display: flex;
             justify-content: space-between;
             padding: 12px 22px;
-            background: rgba(245, 240, 235, 0.5);
+            background: rgba(210, 235, 220, 0.4);
             font-size: 0.7rem;
-            color: #a28c78;
-            border-top: 1px solid #ffeee4;
+            color: #6d9a86;
+            border-top: 1px solid #cae5d9;
         }
-
-        /* 空状态与加载 */
         .empty-state, .error-state {
-            background: rgba(255, 250, 245, 0.9);
-            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 245, 0.9);
             border-radius: 48px;
             padding: 48px 24px;
             text-align: center;
-            color: #9b7e66;
+            color: #689f8a;
             margin-top: 20px;
-            border: 1px solid #ffdfce;
         }
         .loading-state {
-            background: rgba(255,248,240,0.9);
+            background: rgba(255, 248, 240, 0.9);
             border-radius: 48px;
             padding: 48px 20px;
             text-align: center;
@@ -332,56 +348,41 @@
             width: 48px;
             height: 48px;
             margin: 0 auto;
-            border: 4px solid #ffddcc;
-            border-top-color: #ff8c5a;
+            border: 4px solid #cfe8de;
+            border-top-color: #2c9b77;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* 手机优化 */
         @media (max-width: 550px) {
             body { padding: 0 12px 32px 12px; }
-            .hero-card { padding: 22px 18px 28px; border-radius: 44px; }
+            .hero-card { padding: 22px 18px 28px; }
             .hero-title { font-size: 1.7rem; }
-            .search-btn { padding: 0 20px; font-size: 0.9rem; }
-            .filter-section { gap: 8px; padding: 8px 12px; }
-            .filter-chip { padding: 6px 16px; font-size: 0.75rem; }
+            .filter-chip { padding: 6px 14px; font-size: 0.75rem; }
             .card-inner { padding: 16px 18px; }
-            .res-title { font-size: 1.1rem; }
-        }
-
-        /* 装饰小元素 */
-        .floating-dots {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            opacity: 0.4;
-            pointer-events: none;
-            font-size: 42px;
-            z-index: -1;
+            .res-title { font-size: 1rem; }
+            .page-btn { padding: 6px 14px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 <div class="top-rainbow"></div>
-<div class="floating-dots">✨🎀🌸</div>
-
 <div class="container">
     <div class="hero-card">
         <div class="avatar-area">
             <div class="cute-avatar">
-                🧸
+                🦌
             </div>
         </div>
-        <div class="hero-title">裤佬·网盘搜</div>
+        <div class="hero-title">灵鹿·网盘搜</div>
         <div class="sub-badge">
-            <span>📀 百度 · 阿里 · 夸克 · 迅雷</span>
+            <span>📀 百度 · 阿里 · 夸克 · 迅雷 | 每页10条</span>
         </div>
         <div class="search-wrapper">
             <div class="search-box-row">
-                <input type="text" id="searchInput" class="search-input" placeholder="搜电影、短剧、小说、资料… 例如：蜜语纪 死神来了">
-                <button id="searchBtn" class="search-btn">✨ 搜一下</button>
+                <input type="text" id="searchInput" class="search-input" placeholder="搜电影、短剧、书籍、资料… 例：蜜语纪 死神来了">
+                <button id="searchBtn" class="search-btn">✨ 灵鹿搜</button>
             </div>
         </div>
     </div>
@@ -389,27 +390,31 @@
     <!-- 筛选栏 -->
     <div id="filterArea" style="display: none;">
         <div class="filter-section" id="filterBarSection">
-            <span class="filter-icon">📂 筛网盘</span>
+            <span class="filter-icon">📂 网盘筛选</span>
             <div id="filterChipsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
-            <button id="clearFilterBtn" class="clear-filter">清除筛选 ✖️</button>
+            <button id="clearFilterBtn" class="clear-filter">清除 ✖️</button>
         </div>
     </div>
 
     <div id="resultsContainer" class="results-grid">
         <div class="empty-state">
-            🌈 多彩资源库已就绪<br>
+            🦌 灵鹿全网盘搜 · 优雅分页<br>
             💡 试试搜索「短剧」「电影」「死神来了」<br>
-            ✨ 支持百度/阿里/夸克/迅雷分类
+            ✨ 每页10条，清爽浏览
         </div>
     </div>
+
+    <!-- 分页容器 -->
+    <div id="paginationContainer" style="display: none;"></div>
 </div>
 
 <script>
     (function() {
-        // ---------- 纯净配置，去除统计/广告/音乐 ----------
+        // ----- 配置（代理保留）-----
         const ORIGIN_API = 'https://so.252035.xyz/api/search?kw=';
         const PROXY_API = 'https://proxy.api.030101.xyz/';
         const USE_PROXY = true;
+        const PAGE_SIZE = 10;   // 每页10条
 
         function buildApiUrl(keyword) {
             const encodedKw = encodeURIComponent(keyword);
@@ -418,11 +423,13 @@
         }
 
         let currentFilterType = 'all';      // 'all' 或具体网盘名
-        let currentRawResults = [];
+        let currentRawResults = [];           // 当前搜索的所有原始结果
         let currentKeyword = '';
+        let currentPage = 1;                  // 当前页码
+        
         const cache = new Map();
 
-        // ----- 网盘类型识别 （多彩emoji）-----
+        // 网盘识别
         function getDiskTypeWithEmoji(url) {
             if (!url) return '🔗 链接';
             if (url.includes('pan.baidu.com')) return '📀 百度网盘';
@@ -451,7 +458,7 @@
             return order.filter(t => set.has(t));
         }
 
-        // 渲染筛选栏UI（多彩清新）
+        // 渲染筛选栏（保留原有逻辑）
         function renderFilterBar(typesArray) {
             const filterArea = document.getElementById('filterArea');
             const chipsContainer = document.getElementById('filterChipsContainer');
@@ -463,12 +470,14 @@
             filterArea.style.display = 'block';
             chipsContainer.innerHTML = '';
 
+            const totalCount = currentRawResults.length;
             const allChip = document.createElement('button');
             allChip.className = `filter-chip ${currentFilterType === 'all' ? 'active' : ''}`;
-            allChip.textContent = `🌈 全部 (${currentRawResults.length})`;
+            allChip.textContent = `🌈 全部 (${totalCount})`;
             allChip.addEventListener('click', () => {
                 currentFilterType = 'all';
-                applyFilterAndRender();
+                currentPage = 1;
+                applyFilterAndRenderWithPagination();
                 updateActiveFilterUI();
             });
             chipsContainer.appendChild(allChip);
@@ -485,7 +494,8 @@
                 chip.textContent = `${icon} ${type} (${count})`;
                 chip.addEventListener('click', () => {
                     currentFilterType = type;
-                    applyFilterAndRender();
+                    currentPage = 1;
+                    applyFilterAndRenderWithPagination();
                     updateActiveFilterUI();
                 });
                 chipsContainer.appendChild(chip);
@@ -506,44 +516,39 @@
             });
         }
 
-        function applyFilterAndRender() {
-            if (!currentRawResults.length) {
-                renderEmptyState(currentKeyword);
-                return;
-            }
-            let filtered = [...currentRawResults];
-            if (currentFilterType !== 'all') {
-                filtered = filtered.filter(item => getPureDiskType(item.url) === currentFilterType);
-            }
-            if (filtered.length === 0) {
-                resultsContainer.innerHTML = `<div class="empty-state">✨ 当前“${currentFilterType}”下没有资源～<br>试试清除筛选或换个词吧 🌸</div>`;
-                return;
-            }
-            renderResultsCard(filtered);
+        // 获取当前筛选后的结果集
+        function getFilteredResults() {
+            if (!currentRawResults.length) return [];
+            if (currentFilterType === 'all') return [...currentRawResults];
+            return currentRawResults.filter(item => getPureDiskType(item.url) === currentFilterType);
         }
 
-        function formatDateNice(dateStr) {
-            if (!dateStr || dateStr.startsWith('0001')) return '📅 日期未知';
-            try {
-                const d = new Date(dateStr);
-                if (isNaN(d.getTime())) return dateStr.split('T')[0];
-                return `${d.getFullYear()}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getDate().toString().padStart(2,'0')}`;
-            } catch(e) { return '📅 近期'; }
-        }
+        // 渲染当前页 + 分页控件
+        function applyFilterAndRenderWithPagination() {
+            const filteredAll = getFilteredResults();
+            if (filteredAll.length === 0) {
+                resultsContainer.innerHTML = `<div class="empty-state">✨ 当前“${currentFilterType === 'all' ? '全部' : currentFilterType}”下没有资源～<br>试试清除筛选或换个关键词 🦌</div>`;
+                const paginationDiv = document.getElementById('paginationContainer');
+                if (paginationDiv) paginationDiv.style.display = 'none';
+                return;
+            }
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
+            const totalPages = Math.ceil(filteredAll.length / PAGE_SIZE);
+            // 边界修正
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const end = start + PAGE_SIZE;
+            const pageItems = filteredAll.slice(start, end);
+            
+            renderResultsCard(pageItems);
+            renderPaginationControls(filteredAll.length, totalPages);
         }
 
         function renderResultsCard(results) {
             if (!results.length) {
-                resultsContainer.innerHTML = `<div class="empty-state">😢 没有匹配的资源，换个关键词吧～</div>`;
+                resultsContainer.innerHTML = `<div class="empty-state">🍃 当前页无结果，试试其他页码～</div>`;
                 return;
             }
             let html = '';
@@ -551,7 +556,7 @@
                 const title = item.note || '📄 资源链接';
                 const url = item.url || '#';
                 const password = item.password || '';
-                const source = item.source || '全网聚合';
+                const source = item.source || '灵鹿聚合';
                 const datetime = formatDateNice(item.datetime);
                 const diskFull = getDiskTypeWithEmoji(url);
                 const noteDetail = item.note || '';
@@ -582,40 +587,114 @@
             resultsContainer.innerHTML = html;
         }
 
+        function renderPaginationControls(totalItems, totalPages) {
+            const paginationDiv = document.getElementById('paginationContainer');
+            if (!paginationDiv) return;
+            if (totalPages <= 1) {
+                paginationDiv.style.display = 'none';
+                return;
+            }
+            paginationDiv.style.display = 'block';
+            let controlsHtml = `<div class="pagination-bar">
+                <button class="page-btn" id="prevPageBtn" ${currentPage === 1 ? 'disabled' : ''}>◀ 上一页</button>
+                <div class="page-number-group">`;
+            
+            // 显示页码逻辑: 最多显示5个页码，当前居中
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+            
+            for (let p = startPage; p <= endPage; p++) {
+                controlsHtml += `<button class="page-btn ${p === currentPage ? 'active-page' : ''}" data-page="${p}">${p}</button>`;
+            }
+            
+            controlsHtml += `</div>
+                <button class="page-btn" id="nextPageBtn" ${currentPage === totalPages ? 'disabled' : ''}>下一页 ▶</button>
+                <span class="page-info">第 ${currentPage} / ${totalPages} 页 (共 ${totalItems} 条)</span>
+            </div>`;
+            paginationDiv.innerHTML = controlsHtml;
+            
+            // 绑定页码点击事件
+            document.querySelectorAll('[data-page]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const page = parseInt(btn.getAttribute('data-page'), 10);
+                    if (!isNaN(page) && page !== currentPage) {
+                        currentPage = page;
+                        applyFilterAndRenderWithPagination();
+                    }
+                });
+            });
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            if (prevBtn) prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    applyFilterAndRenderWithPagination();
+                }
+            });
+            if (nextBtn) nextBtn.addEventListener('click', () => {
+                const maxPage = Math.ceil(getFilteredResults().length / PAGE_SIZE);
+                if (currentPage < maxPage) {
+                    currentPage++;
+                    applyFilterAndRenderWithPagination();
+                }
+            });
+        }
+
+        function formatDateNice(dateStr) {
+            if (!dateStr || dateStr.startsWith('0001')) return '日期未知';
+            try {
+                const d = new Date(dateStr);
+                if (isNaN(d.getTime())) return dateStr.split('T')[0];
+                return `${d.getFullYear()}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getDate().toString().padStart(2,'0')}`;
+            } catch(e) { return '近期'; }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
         function renderEmptyState(kw) {
             if (kw) {
                 resultsContainer.innerHTML = `<div class="empty-state">🍃 没有找到关于 “${escapeHtml(kw)}” 的资源<br>💡 试试其他关键词: 短剧，死神来了，热播电影</div>`;
             } else {
-                resultsContainer.innerHTML = `<div class="empty-state">🌈 输入关键词，一键搜索全网盘资源<br>支持百度/阿里/夸克/迅雷智能分类</div>`;
+                resultsContainer.innerHTML = `<div class="empty-state">🦌 灵鹿搜·输入关键词，智能分类网盘资源<br>支持百度/阿里/夸克/迅雷 | 每页10条清爽展示</div>`;
             }
             document.getElementById('filterArea').style.display = 'none';
+            const paginationDiv = document.getElementById('paginationContainer');
+            if (paginationDiv) paginationDiv.style.display = 'none';
         }
 
         function showLoadingSpinner() {
-            resultsContainer.innerHTML = `<div class="loading-state"><div class="spinner-dual"></div><div style="margin-top:16px; color:#ff8c5a;">⚡ 代理加速检索中 · 稍等片刻</div></div>`;
+            resultsContainer.innerHTML = `<div class="loading-state"><div class="spinner-dual"></div><div style="margin-top:16px; color:#2c9b77;">⚡ 灵鹿加速检索中 · 稍等片刻</div></div>`;
             document.getElementById('filterArea').style.display = 'none';
+            const paginationDiv = document.getElementById('paginationContainer');
+            if (paginationDiv) paginationDiv.style.display = 'none';
         }
 
-        function fetchWithTimeout(url, timeout = 8000, retries = 1) {
-            return new Promise(async (resolve, reject) => {
-                let lastErr;
-                for (let i = 0; i <= retries; i++) {
-                    try {
-                        const controller = new AbortController();
-                        const tid = setTimeout(() => controller.abort(), timeout);
-                        const res = await fetch(url, { signal: controller.signal, headers: { 'Accept': 'application/json' } });
-                        clearTimeout(tid);
-                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                        const data = await res.json();
-                        resolve(data);
-                        return;
-                    } catch (err) {
-                        lastErr = err;
-                        if (i < retries) await new Promise(r => setTimeout(r, 500));
-                    }
+        async function fetchWithTimeout(url, timeout = 8000, retries = 1) {
+            let lastErr;
+            for (let i = 0; i <= retries; i++) {
+                try {
+                    const controller = new AbortController();
+                    const tid = setTimeout(() => controller.abort(), timeout);
+                    const res = await fetch(url, { signal: controller.signal, headers: { 'Accept': 'application/json' } });
+                    clearTimeout(tid);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const data = await res.json();
+                    return data;
+                } catch (err) {
+                    lastErr = err;
+                    if (i < retries) await new Promise(r => setTimeout(r, 500));
                 }
-                reject(lastErr);
-            });
+            }
+            throw lastErr;
         }
 
         async function searchResources(keyword) {
@@ -626,13 +705,14 @@
             }
             currentKeyword = kw;
             currentFilterType = 'all';
+            currentPage = 1;
             
             if (cache.has(kw)) {
                 const cached = cache.get(kw);
                 currentRawResults = cached.allResults;
                 const types = extractDiskTypesFromResults(currentRawResults);
                 renderFilterBar(types);
-                applyFilterAndRender();
+                applyFilterAndRenderWithPagination();
                 return;
             }
             
@@ -640,7 +720,6 @@
             try {
                 const apiUrl = buildApiUrl(kw);
                 const data = await fetchWithTimeout(apiUrl, 8000, 1);
-                
                 if (data.code !== 0 || !data.data) throw new Error(data.message || '接口异常');
                 const merged = data.data.merged_by_type || {};
                 let allResults = [];
@@ -655,29 +734,28 @@
                 }
                 currentRawResults = allResults;
                 cache.set(kw, { allResults });
-                if (cache.size > 45) {
+                if (cache.size > 50) {
                     const first = cache.keys().next().value;
                     cache.delete(first);
                 }
                 const diskTypes = extractDiskTypesFromResults(allResults);
                 renderFilterBar(diskTypes);
-                applyFilterAndRender();
+                applyFilterAndRenderWithPagination();
             } catch (err) {
                 console.warn(err);
-                resultsContainer.innerHTML = `<div class="error-state">⚠️ 请求出了点小差：${err.message || '网络波动'}<br>点击重试或稍后再试～</div>`;
+                resultsContainer.innerHTML = `<div class="error-state">⚠️ 请求失败: ${err.message || '网络波动'}<br>点击重试或稍后再试～</div>`;
                 document.getElementById('filterArea').style.display = 'none';
+                const paginationDiv = document.getElementById('paginationContainer');
+                if (paginationDiv) paginationDiv.style.display = 'none';
             }
         }
 
-        // 预加载暖场（可选优雅静默）
         function silentWarmup() {
             const warmWords = ['短剧', '电影'];
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => {
                     warmWords.forEach(w => {
-                        if (!cache.has(w)) {
-                            fetchWithTimeout(buildApiUrl(w), 10000, 0).catch(() => {});
-                        }
+                        if (!cache.has(w)) fetchWithTimeout(buildApiUrl(w), 10000, 0).catch(() => {});
                     });
                 });
             } else {
@@ -689,10 +767,9 @@
             }
         }
 
-        // ----- DOM 绑定 -----
+        // 绑定UI
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
-        const resultsContainer = document.getElementById('resultsContainer');
         const clearFilterBtn = document.getElementById('clearFilterBtn');
         
         searchBtn.addEventListener('click', () => searchResources(searchInput.value));
@@ -704,7 +781,8 @@
             clearFilterBtn.addEventListener('click', () => {
                 if (currentRawResults.length) {
                     currentFilterType = 'all';
-                    applyFilterAndRender();
+                    currentPage = 1;
+                    applyFilterAndRenderWithPagination();
                     const types = extractDiskTypesFromResults(currentRawResults);
                     renderFilterBar(types);
                     updateActiveFilterUI();
@@ -715,9 +793,9 @@
             });
         }
         
-        // 启动时轻量预热 + 默认文案
         silentWarmup();
     })();
 </script>
+<div id="paginationContainer"></div>
 </body>
 </html>
