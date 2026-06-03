@@ -102,12 +102,12 @@
             border: 3px solid white;
         }
 
-        /* 修改后的搜索区域：按钮放在输入框下面 */
+        /* 修改区域：将搜索按钮放置在搜索框下方，垂直排列 */
         .search-wrapper {
             display: flex;
             flex-direction: column;
             gap: 14px;
-            margin-top: 12px;
+            margin-top: 16px;
         }
         .search-input {
             width: 100%;
@@ -130,7 +130,7 @@
             background: linear-gradient(100deg, #2c9b77, #1f8a6b);
             border: none;
             border-radius: 60px;
-            padding: 14px 24px;
+            padding: 14px 20px;
             font-weight: 700;
             font-size: 1rem;
             color: white;
@@ -147,52 +147,9 @@
             transform: scale(0.97);
         }
 
-        /* 新增：品牌卡片 (居中优雅) */
-        .lingcard {
-            background: linear-gradient(115deg, #ffffff 0%, #fefdf8 100%);
-            backdrop-filter: blur(6px);
-            border-radius: 48px;
-            padding: 16px 20px;
-            margin: 20px auto 16px auto;
-            max-width: 360px;
-            width: 90%;
-            text-align: center;
-            border: 1px solid rgba(90, 180, 140, 0.5);
-            box-shadow: 0 12px 22px -10px rgba(44, 155, 119, 0.15);
-            transition: all 0.2s ease;
-        }
-        .lingcard-inner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .ling-icon {
-            font-size: 34px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-        }
-        .ling-text {
-            font-size: 1.6rem;
-            font-weight: 800;
-            background: linear-gradient(125deg, #2c9b77, #3dae86, #60c7a3);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
-        .ling-sub {
-            font-size: 0.7rem;
-            background: #eef7f2;
-            padding: 4px 12px;
-            border-radius: 100px;
-            color: #2c9b77;
-            font-weight: 600;
-        }
-
         /* 筛选栏 */
         .filter-section {
-            margin: 12px 0 28px 0;
+            margin: 24px 0 28px 0;
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
             border-radius: 60px;
@@ -404,10 +361,6 @@
             .card-inner { padding: 16px 18px; }
             .res-title { font-size: 1rem; }
             .page-btn { padding: 6px 14px; font-size: 0.75rem; }
-            .ling-text { font-size: 1.3rem; }
-            .ling-icon { font-size: 28px; }
-            .lingcard { padding: 12px 16px; width: 95%; }
-            .search-input { padding: 14px 22px; }
             .search-btn { padding: 12px 20px; }
         }
     </style>
@@ -428,15 +381,6 @@
         <div class="search-wrapper">
             <input type="text" id="searchInput" class="search-input" placeholder="搜电影、短剧、书籍、资料… 例：蜜语纪 死神来了">
             <button id="searchBtn" class="search-btn">✨ 灵鹿搜</button>
-        </div>
-    </div>
-
-    <!-- 🦌 居中品牌卡片：灵鹿搜 (位于搜索框下方、筛选栏上方) -->
-    <div class="lingcard" id="brandLingCard">
-        <div class="lingcard-inner">
-            <span class="ling-icon">🦌✨</span>
-            <span class="ling-text">灵鹿搜</span>
-            <span class="ling-sub">全网盘·极速分页</span>
         </div>
     </div>
 
@@ -511,7 +455,7 @@
             return order.filter(t => set.has(t));
         }
 
-        // 渲染筛选栏
+        // 渲染筛选栏（保留原有逻辑）
         function renderFilterBar(typesArray) {
             const filterArea = document.getElementById('filterArea');
             const chipsContainer = document.getElementById('filterChipsContainer');
@@ -558,10 +502,10 @@
         function updateActiveFilterUI() {
             const chips = document.querySelectorAll('.filter-chip');
             chips.forEach(chip => {
-                const text = chip.textContent.split(' ')[0].replace(/[🌈📀☁️⚛️⚡]/g, '').trim();
-                if (currentFilterType === 'all' && (chip.textContent.includes('全部') || text === '全部')) {
+                const rawText = chip.textContent;
+                if (currentFilterType === 'all' && rawText.includes('全部')) {
                     chip.classList.add('active');
-                } else if (currentFilterType !== 'all' && chip.textContent.includes(currentFilterType)) {
+                } else if (currentFilterType !== 'all' && rawText.includes(currentFilterType)) {
                     chip.classList.add('active');
                 } else {
                     chip.classList.remove('active');
@@ -580,7 +524,8 @@
         function applyFilterAndRenderWithPagination() {
             const filteredAll = getFilteredResults();
             if (filteredAll.length === 0) {
-                resultsContainer.innerHTML = `<div class="empty-state">✨ 当前“${currentFilterType === 'all' ? '全部' : currentFilterType}”下没有资源～<br>试试清除筛选或换个关键词 🦌</div>`;
+                const filterName = currentFilterType === 'all' ? '全部' : currentFilterType;
+                resultsContainer.innerHTML = `<div class="empty-state">✨ 当前“${filterName}”下没有资源～<br>试试清除筛选或换个关键词 🦌</div>`;
                 const paginationDiv = document.getElementById('paginationContainer');
                 if (paginationDiv) paginationDiv.style.display = 'none';
                 return;
@@ -652,6 +597,7 @@
                 <button class="page-btn" id="prevPageBtn" ${currentPage === 1 ? 'disabled' : ''}>◀ 上一页</button>
                 <div class="page-number-group">`;
             
+            // 显示页码逻辑: 最多显示5个页码，当前居中
             let startPage = Math.max(1, currentPage - 2);
             let endPage = Math.min(totalPages, startPage + 4);
             if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
@@ -666,6 +612,7 @@
             </div>`;
             paginationDiv.innerHTML = controlsHtml;
             
+            // 绑定页码点击事件
             document.querySelectorAll('[data-page]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const page = parseInt(btn.getAttribute('data-page'), 10);
