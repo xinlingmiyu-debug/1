@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>灵鹿网盘搜</title>
+    <title>灵鹿网盘搜 · 115专享｜分页筛选版</title>
     <style>
         * {
             margin: 0;
@@ -102,7 +102,7 @@
             border: 3px solid white;
         }
 
-        /* 修改区域：将搜索按钮放置在搜索框下方，垂直排列 */
+        /* 搜索框在上，按钮在下（垂直排列） */
         .search-wrapper {
             display: flex;
             flex-direction: column;
@@ -376,11 +376,11 @@
         </div>
         <div class="hero-title">灵鹿·网盘搜</div>
         <div class="sub-badge">
-            <span> 百度 · 阿里 · 夸克 · 迅雷 · 115</span>
+            <span>📀 百度·阿里·夸克·迅雷 · 📀 115网盘 | 每页10条</span>
         </div>
         <div class="search-wrapper">
-            <input type="text" id="searchInput" class="search-input" placeholder="搜电影、短剧、书籍、资料… 例：蜜语纪 死神来了">
-            <button id="searchBtn" class="search-btn"> 灵鹿搜 </button>
+            <input type="text" id="searchInput" class="search-input" placeholder="搜电影、短剧、书籍、资料… 例：蜜语纪 死神来了 115资源">
+            <button id="searchBtn" class="search-btn">✨ 灵鹿搜</button>
         </div>
     </div>
 
@@ -395,9 +395,9 @@
 
     <div id="resultsContainer" class="results-grid">
         <div class="empty-state">
-            🦌 灵鹿全网盘搜<br>
+            🦌 灵鹿全网盘搜 · 优雅分页 (含115网盘)<br>
             💡 试试搜索「短剧」「电影」「死神来了」<br>
-            
+            ✨ 每页10条，清爽浏览
         </div>
     </div>
 
@@ -419,21 +419,22 @@
             return ORIGIN_API + encodedKw;
         }
 
-        let currentFilterType = 'all';      // 'all' 或具体网盘名
+        let currentFilterType = 'all';      // 'all' 或具体网盘名 (例如: '115网盘')
         let currentRawResults = [];           // 当前搜索的所有原始结果
         let currentKeyword = '';
         let currentPage = 1;                  // 当前页码
         
         const cache = new Map();
 
-        // 网盘识别
+        // ----- 增强网盘识别：增加115网盘支持 -----
         function getDiskTypeWithEmoji(url) {
             if (!url) return '🔗 链接';
-            if (url.includes('pan.baidu.com')) return ' 百度网盘';
-            if (url.includes('aliyundrive.com')) return ' 阿里云盘';
-            if (url.includes('quark.cn')) return ' 夸克网盘';
-            if (url.includes('xunlei.com') || url.includes('pan.xunlei.com')) return ' 迅雷网盘';
-            if (url.includes('115cdn.com') || url.includes('115.com')) return ' 115网盘';
+            if (url.includes('pan.baidu.com')) return '📀 百度网盘';
+            if (url.includes('aliyundrive.com')) return '☁️ 阿里云盘';
+            if (url.includes('quark.cn')) return '⚛️ 夸克网盘';
+            if (url.includes('xunlei.com') || url.includes('pan.xunlei.com')) return '⚡ 迅雷网盘';
+            // 115网盘核心识别: 115.com 或者 115cdn 或者 115pic 等
+            if (url.includes('115.com') || url.includes('115cdn') || url.includes('115pic') || url.includes('/115/')) return '📀 115网盘';
             return '🔗 网盘链接';
         }
 
@@ -443,7 +444,7 @@
             if (type.includes('阿里')) return '阿里云盘';
             if (type.includes('夸克')) return '夸克网盘';
             if (type.includes('迅雷')) return '迅雷网盘';
-            if (type.includes('115')) return '115网盘';
+            if (type.includes('115网盘')) return '115网盘';
             return '其他';
         }
 
@@ -453,11 +454,12 @@
                 const pure = getPureDiskType(item.url);
                 if (pure !== '其他') set.add(pure);
             }
+            // 优化排序：百度、阿里、夸克、迅雷、115，视觉友好
             const order = ['百度网盘', '阿里云盘', '夸克网盘', '迅雷网盘', '115网盘'];
             return order.filter(t => set.has(t));
         }
 
-        // 渲染筛选栏（保留原有逻辑）
+        // 渲染筛选栏（保留原有逻辑 + 115图标）
         function renderFilterBar(typesArray) {
             const filterArea = document.getElementById('filterArea');
             const chipsContainer = document.getElementById('filterChipsContainer');
@@ -486,11 +488,11 @@
                 const chip = document.createElement('button');
                 chip.className = `filter-chip ${currentFilterType === type ? 'active' : ''}`;
                 let icon = '';
-                if (type === '百度网盘');
-                else if (type === '阿里云盘');
-                else if (type === '夸克网盘');
-                else if (type === '迅雷网盘')';
-                else if (type === '115网盘')';   
+                if (type === '百度网盘') icon = '📀';
+                else if (type === '阿里云盘') icon = '☁️';
+                else if (type === '夸克网盘') icon = '⚛️';
+                else if (type === '迅雷网盘') icon = '⚡';
+                else if (type === '115网盘') icon = '📀';  // 115 使用云盘风格图标
                 chip.textContent = `${icon} ${type} (${count})`;
                 chip.addEventListener('click', () => {
                     currentFilterType = type;
@@ -663,9 +665,9 @@
 
         function renderEmptyState(kw) {
             if (kw) {
-                resultsContainer.innerHTML = `<div class="empty-state">🍃 没有找到关于 “${escapeHtml(kw)}” 的资源<br>💡 试试其他关键词: 短剧，死神来了，热播电影</div>`;
+                resultsContainer.innerHTML = `<div class="empty-state">🍃 没有找到关于 “${escapeHtml(kw)}” 的资源<br>💡 试试其他关键词: 短剧，死神来了，热播电影, 115资源</div>`;
             } else {
-                resultsContainer.innerHTML = `<div class="empty-state">🦌 灵鹿搜·输入关键词，智能分类网盘资源<br>支持百度/阿里/夸克/迅雷/115</div>`;
+                resultsContainer.innerHTML = `<div class="empty-state">🦌 灵鹿搜·输入关键词，智能分类网盘资源（含115网盘）<br>支持百度/阿里/夸克/迅雷/115 | 每页10条清爽展示</div>`;
             }
             document.getElementById('filterArea').style.display = 'none';
             const paginationDiv = document.getElementById('paginationContainer');
@@ -673,7 +675,7 @@
         }
 
         function showLoadingSpinner() {
-            resultsContainer.innerHTML = `<div class="loading-state"><div class="spinner-dual"></div><div style="margin-top:16px; color:#2c9b77;">⚡ 灵鹿加速检索中 · 稍等片刻</div></div>`;
+            resultsContainer.innerHTML = `<div class="loading-state"><div class="spinner-dual"></div><div style="margin-top:16px; color:#2c9b77;">⚡ 灵鹿加速检索中 · 稍等片刻 (含115网盘资源)</div></div>`;
             document.getElementById('filterArea').style.display = 'none';
             const paginationDiv = document.getElementById('paginationContainer');
             if (paginationDiv) paginationDiv.style.display = 'none';
@@ -744,7 +746,7 @@
                 applyFilterAndRenderWithPagination();
             } catch (err) {
                 console.warn(err);
-                resultsContainer.innerHTML = `<div class="error-state">⚠️ 请求失败: ${err.message || '网络波动'}<br>点击重试或稍后再试～</div>`;
+                resultsContainer.innerHTML = `<div class="error-state">⚠️ 请求失败: ${err.message || '网络波动'}<br>点击重试或稍后再试～ (115网盘资源可能需要更多时间)</div>`;
                 document.getElementById('filterArea').style.display = 'none';
                 const paginationDiv = document.getElementById('paginationContainer');
                 if (paginationDiv) paginationDiv.style.display = 'none';
