@@ -376,7 +376,7 @@
         </div>
         <div class="hero-title">灵鹿·网盘搜</div>
         <div class="sub-badge">
-            <span>📀 百度 · 阿里 · 夸克 · 迅雷</span>
+            <span> 百度 · 阿里 · 夸克 · 迅雷 · 115</span>
         </div>
         <div class="search-wrapper">
             <input type="text" id="searchInput" class="search-input" placeholder="搜电影、短剧、书籍、资料… 例：蜜语纪 死神来了">
@@ -429,10 +429,11 @@
         // 网盘识别
         function getDiskTypeWithEmoji(url) {
             if (!url) return '🔗 链接';
-            if (url.includes('pan.baidu.com')) return '📀 百度网盘';
-            if (url.includes('aliyundrive.com')) return '☁️ 阿里云盘';
-            if (url.includes('quark.cn')) return '⚛️ 夸克网盘';
-            if (url.includes('xunlei.com') || url.includes('pan.xunlei.com')) return '⚡ 迅雷网盘';
+            if (url.includes('pan.baidu.com')) return ' 百度网盘';
+            if (url.includes('aliyundrive.com')) return ' 阿里云盘';
+            if (url.includes('quark.cn')) return ' 夸克网盘';
+            if (url.includes('xunlei.com') || url.includes('pan.xunlei.com')) return ' 迅雷网盘';
+            if (url.includes('115cdn.com') || url.includes('115.com')) return ' 115网盘';
             return '🔗 网盘链接';
         }
 
@@ -442,6 +443,7 @@
             if (type.includes('阿里')) return '阿里云盘';
             if (type.includes('夸克')) return '夸克网盘';
             if (type.includes('迅雷')) return '迅雷网盘';
+            if (type.includes('115')) return '115网盘';
             return '其他';
         }
 
@@ -451,7 +453,7 @@
                 const pure = getPureDiskType(item.url);
                 if (pure !== '其他') set.add(pure);
             }
-            const order = ['百度网盘', '阿里云盘', '夸克网盘', '迅雷网盘'];
+            const order = ['百度网盘', '阿里云盘', '夸克网盘', '迅雷网盘', '115网盘'];
             return order.filter(t => set.has(t));
         }
 
@@ -484,10 +486,11 @@
                 const chip = document.createElement('button');
                 chip.className = `filter-chip ${currentFilterType === type ? 'active' : ''}`;
                 let icon = '';
-                if (type === '百度网盘') icon = '📀';
-                else if (type === '阿里云盘') icon = '☁️';
-                else if (type === '夸克网盘') icon = '⚛️';
-                else if (type === '迅雷网盘') icon = '⚡';
+                if (type === '百度网盘');
+                else if (type === '阿里云盘');
+                else if (type === '夸克网盘');
+                else if (type === '迅雷网盘')';
+                else if (type === '115网盘')';   
                 chip.textContent = `${icon} ${type} (${count})`;
                 chip.addEventListener('click', () => {
                     currentFilterType = type;
@@ -662,7 +665,7 @@
             if (kw) {
                 resultsContainer.innerHTML = `<div class="empty-state">🍃 没有找到关于 “${escapeHtml(kw)}” 的资源<br>💡 试试其他关键词: 短剧，死神来了，热播电影</div>`;
             } else {
-                resultsContainer.innerHTML = `<div class="empty-state">🦌 灵鹿搜·输入关键词，智能分类网盘资源<br>支持百度/阿里/夸克/迅雷 | 每页10条清爽展示</div>`;
+                resultsContainer.innerHTML = `<div class="empty-state">🦌 灵鹿搜·输入关键词，智能分类网盘资源<br>支持百度/阿里/夸克/迅雷/115</div>`;
             }
             document.getElementById('filterArea').style.display = 'none';
             const paginationDiv = document.getElementById('paginationContainer');
