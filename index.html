@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>灵鹿网盘搜</title>
+    <title>灵鹿网盘搜 · 分页筛选版</title>
     <style>
         * {
             margin: 0;
@@ -149,9 +149,52 @@
             transform: scale(0.96);
         }
 
+        /* 新增：灵鹿搜品牌卡片 (居中优雅卡片) */
+        .lingcard {
+            background: linear-gradient(115deg, #ffffff 0%, #fefdf8 100%);
+            backdrop-filter: blur(6px);
+            border-radius: 48px;
+            padding: 18px 20px;
+            margin: 20px auto 16px auto;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(90, 180, 140, 0.5);
+            box-shadow: 0 12px 22px -10px rgba(44, 155, 119, 0.15);
+            transition: all 0.2s ease;
+        }
+        .lingcard-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .ling-icon {
+            font-size: 38px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+        }
+        .ling-text {
+            font-size: 1.65rem;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c9b77, #3dae86, #60c7a3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .ling-sub {
+            font-size: 0.7rem;
+            background: #eef7f2;
+            padding: 4px 12px;
+            border-radius: 100px;
+            color: #2c9b77;
+            font-weight: 600;
+        }
+
         /* 筛选栏 */
         .filter-section {
-            margin: 24px 0 28px 0;
+            margin: 12px 0 28px 0;
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
             border-radius: 60px;
@@ -363,6 +406,9 @@
             .card-inner { padding: 16px 18px; }
             .res-title { font-size: 1rem; }
             .page-btn { padding: 6px 14px; font-size: 0.75rem; }
+            .ling-text { font-size: 1.3rem; }
+            .ling-icon { font-size: 30px; }
+            .lingcard { padding: 12px 16px; width: 95%; }
         }
     </style>
 </head>
@@ -377,13 +423,22 @@
         </div>
         <div class="hero-title">灵鹿·网盘搜</div>
         <div class="sub-badge">
-            <span>📀 百度 · 阿里 · 夸克 · 迅雷 </span>
+            <span>📀 百度 · 阿里 · 夸克 · 迅雷 | 每页10条</span>
         </div>
         <div class="search-wrapper">
             <div class="search-box-row">
                 <input type="text" id="searchInput" class="search-input" placeholder="搜电影、短剧、书籍、资料… 例：蜜语纪 死神来了">
                 <button id="searchBtn" class="search-btn">✨ 灵鹿搜</button>
             </div>
+        </div>
+    </div>
+
+    <!-- 🦌 居中品牌卡片：灵鹿搜 (位于搜索框下方、筛选栏上方) -->
+    <div class="lingcard" id="brandLingCard">
+        <div class="lingcard-inner">
+            <span class="ling-icon">🦌✨</span>
+            <span class="ling-text">灵鹿搜</span>
+            <span class="ling-sub">全网盘·极速分页</span>
         </div>
     </div>
 
@@ -398,7 +453,7 @@
 
     <div id="resultsContainer" class="results-grid">
         <div class="empty-state">
-            🦌 灵鹿全网盘搜<br>
+            🦌 灵鹿全网盘搜 · 优雅分页<br>
             💡 试试搜索「短剧」「电影」「死神来了」<br>
             ✨ 每页10条，清爽浏览
         </div>
@@ -458,7 +513,7 @@
             return order.filter(t => set.has(t));
         }
 
-        // 渲染筛选栏（保留原有逻辑）
+        // 渲染筛选栏
         function renderFilterBar(typesArray) {
             const filterArea = document.getElementById('filterArea');
             const chipsContainer = document.getElementById('filterChipsContainer');
